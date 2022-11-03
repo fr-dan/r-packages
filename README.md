@@ -144,7 +144,7 @@ With the Historic Hansard API, which may be one of the worst things ever made by
 `base_url` + `what (members/commons)` + `Mon` + `.js`
 
 ```{r}
-#' Download all members on date from HHR
+#' Download proceedings on date from HHR
 #' 
 #' @param day number of day in month
 #' @param month first 3 char of month
@@ -157,26 +157,12 @@ With the Historic Hansard API, which may be one of the worst things ever made by
 #' @return the results from the search
 #' @examples 
 #' \dontrun{
-#' hansard_members(day = 5, month = "apr")
+#' hansard_members(day = 5, month = "apr", year = 2002)
 #' }
 
-search_ban <- function(q = NULL, limit = NULL, autocomplete = NULL, lat = NULL, lon = NULL, type = NULL, postcode = NULL, citycode = NULL){
-  args <- list(q = q, limit = limit, autocomplete = autocomplete, lat = lat, 
-               lon = lon, type = type, postcode = postcode, citycode = citycode)
-  # Check that at least one argument is not null
-  stop_if_all(args, is.null, "You need to specify at least one argument")
-  # Chek for internet
-  check_internet()
-  # Create the 
-  res <- GET(base_url, query = compact(args))
-  # Check the result
-  check_status(res)
-  # Get the content and return it as a data.frame
-  fromJSON(rawToChar(res$content))$features
-}
 
-hansard_members <- function(day = NULL, month - NULL) {
-args <- list(day = day, month = month)
+hansard_members <- function(day = NULL, month = NULL, year = NULL) {
+args <- list(day = day, month = month, year = year)
 stop_if_any(args, is.null, "Both day and month must be specified")
 check_internet()
 res <- GET(paste0(base_url, members, month, "/", day, js))
